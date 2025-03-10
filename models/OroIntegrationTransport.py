@@ -1,0 +1,73 @@
+from sqlalchemy import BigInteger, Boolean, CHAR, Column, Date, Float, ForeignKey, Index, Integer, JSON, LargeBinary, Numeric, SmallInteger, String, Table, Text, UniqueConstraint, text
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, configure_mappers
+from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMP, TIME, UUID
+from . import Base, metadata
+
+
+class OroIntegrationTransport(Base):
+    __tablename__ = 'oro_integration_transport'
+
+    id = Column(Integer, primary_key=True, server_default=text("nextval('oro_integration_transport_id_seq'::regclass)"))
+    type = Column(String(30), nullable=False, index=True)
+    money_order_pay_to = Column(String(255), server_default=text("NULL::character varying"))
+    money_order_send_to = Column(Text)
+    pp_express_checkout_action = Column(String(255), server_default=text("NULL::character varying"))
+    pp_credit_card_action = Column(String(255), server_default=text("NULL::character varying"))
+    pp_allowed_card_types = Column(Text, comment='(DC2Type:array)(DC2Type:array)')
+    pp_express_checkout_name = Column(String(255), server_default=text("NULL::character varying"))
+    pp_partner = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)')
+    pp_vendor = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)(DC2Type:crypted_string)')
+    pp_user = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)(DC2Type:crypted_string)')
+    pp_password = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)(DC2Type:crypted_string)')
+    pp_test_mode = Column(Boolean, server_default=text("false"))
+    pp_debug_mode = Column(Boolean, server_default=text("false"))
+    pp_require_cvv_entry = Column(Boolean, server_default=text("true"))
+    pp_zero_amount_authorization = Column(Boolean, server_default=text("false"))
+    pp_auth_for_req_amount = Column(Boolean, server_default=text("false"))
+    pp_use_proxy = Column(Boolean, server_default=text("false"))
+    pp_proxy_host = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)(DC2Type:crypted_string)')
+    pp_proxy_port = Column(String(255), server_default=text("NULL::character varying"), comment='(DC2Type:crypted_string)(DC2Type:crypted_string)')
+    pp_enable_ssl_verification = Column(Boolean, server_default=text("true"))
+    orocrm_zd_email = Column(String(100), server_default=text("NULL::character varying"))
+    orocrm_zd_url = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_zd_token = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_zd_default_user_email = Column(String(100), server_default=text("NULL::character varying"))
+    orocrm_dm_api_username = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_dm_api_password = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_dm_api_client_id = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_dm_api_client_key = Column(String(255), server_default=text("NULL::character varying"))
+    orocrm_dm_api_custom_domain = Column(String(255), server_default=text("NULL::character varying"))
+    fedex_test_mode = Column(Boolean, server_default=text("false"))
+    fedex_ignore_package_dimension = Column(Boolean, server_default=text("false"))
+    fedex_key = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_password = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_client_id = Column(String(255), server_default=text("NULL::character varying"))
+    fedex_client_secret = Column(String(255), server_default=text("NULL::character varying"))
+    fedex_access_token = Column(Text)
+    fedex_access_token_expires = Column(TIMESTAMP(precision=0), server_default=text("NULL::timestamp without time zone"), comment='(DC2Type:datetime)')
+    fedex_account_number = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_account_number_rest = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_meter_number = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_pickup_type = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_pickup_type_rest = Column(String(100), server_default=text("NULL::character varying"))
+    fedex_unit_of_weight = Column(String(3), server_default=text("NULL::character varying"))
+    fedex_invalidate_cache_at = Column(TIMESTAMP(precision=0), server_default=text("NULL::timestamp without time zone"), comment='(DC2Type:datetime)')
+    ups_country_code = Column(ForeignKey('oro_dictionary_country.iso2_code'), index=True, server_default=text("NULL::character varying"))
+    ups_test_mode = Column(Boolean, server_default=text("false"))
+    ups_api_user = Column(String(255), server_default=text("NULL::character varying"))
+    ups_api_password = Column(String(255), server_default=text("NULL::character varying"))
+    ups_api_key = Column(String(255), server_default=text("NULL::character varying"))
+    ups_client_id = Column(String(255), server_default=text("NULL::character varying"))
+    ups_client_secret = Column(String(255), server_default=text("NULL::character varying"))
+    ups_access_token = Column(Text)
+    ups_access_token_expires = Column(TIMESTAMP(precision=0), server_default=text("NULL::timestamp without time zone"), comment='(DC2Type:datetime)')
+    ups_shipping_account_number = Column(String(100), server_default=text("NULL::character varying"))
+    ups_shipping_account_name = Column(String(255), server_default=text("NULL::character varying"))
+    ups_pickup_type = Column(String(2), server_default=text("NULL::character varying"))
+    ups_unit_of_weight = Column(String(3), server_default=text("NULL::character varying"))
+    ups_invalidate_cache_at = Column(TIMESTAMP(precision=0), server_default=text("NULL::timestamp without time zone"), comment='(DC2Type:datetime)')
+
+    oro_dictionary_country = relationship('OroDictionaryCountry')
+
+
