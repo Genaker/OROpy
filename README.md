@@ -2,6 +2,8 @@
 
 OROpy is a Python library that provides an SQLAlchemy ORM interface for interacting with an OroCommerce database. It allows you to perform operations such as querying and manipulating data within your OroCommerce instance using Python.
 
+![OROpy](https://github.com/user-attachments/assets/5963177d-79ad-4b1f-813f-8acd04f5644c)
+
 ## Features
 
 - Define ORM models for OroCommerce entities.
