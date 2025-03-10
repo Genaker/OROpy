@@ -52,19 +52,11 @@ OROpy is a Python library that provides an SQLAlchemy ORM interface for interact
    session = Session()
    ```
 
-2. **Define ORM Models**: Use SQLAlchemy to define models for your OroCommerce entities.
+2. **Import ORM Models**: Use OROpy to import models for your OroCommerce entities.
 
    ```python
-   from sqlalchemy import Column, Integer, String
-   from sqlalchemy.ext.declarative import declarative_base
-
-   Base = declarative_base()
-
-   class OroProduct(Base):
-       __tablename__ = 'oro_product'
-       id = Column(Integer, primary_key=True)
-       name = Column(String)
-       sku = Column(String)
+   from models.OroProduct import OroProduct
+   configure_mappers()
    ```
 
 ### Querying Data
@@ -73,7 +65,8 @@ To query data from the OroCommerce database:
 
 ```python
 from db import session
-from models import OroProduct
+from models.OroProduct import OroProduct
+configure_mappers()
 products = session.query(OroProduct).all()
 for product in products:
 print(f"ID: {product.id}, Name: {product.name}, SKU: {product.sku}")
